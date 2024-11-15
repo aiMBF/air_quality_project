@@ -1,2 +1,4 @@
 .env/
 .secrets
+terraform/.terraform/*
+terraform/.terraform.lock.hcl
