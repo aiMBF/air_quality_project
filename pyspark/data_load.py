@@ -1,4 +1,4 @@
-def load_csv_date(spark, filename):
+def load_csv_data(spark, filename):
     return spark.read.format("csv").option("header", "true").load(filename)
     
 

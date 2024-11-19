@@ -1,6 +1,7 @@
 from dotenv import load_dotenv
 import os
 from pyspark.sql import SparkSession
+from data_load import load_csv_data, load_json_data
 
 
 load_dotenv(dotenv_path=".secrets")
@@ -14,4 +15,5 @@ spark = SparkSession.builder \
     .getOrCreate()
     
     
-# I have to add data loading using the new loading methods
+annual_co2_per_country_df = load_csv_data(spark, "gs://co2-data-bucket/data/data/annual-co2-emissions-per-country.csv")
+detailled_co2_per_country_df = load_json_data(spark, "gs://co2-data-bucket/data/data/owid-co2-data.json")
