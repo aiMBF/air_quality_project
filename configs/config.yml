@@ -1,3 +1,6 @@
 #config.yml
 
+start:
+  command: spark-submit --jars pyspark/gcs-connector-hadoop3-latest.jar --conf spark.hadoop.fs.gs.impl=com.google.cloud.hadoop.fs.gcs.GoogleHadoopFileSystem --conf spark.hadoop.google.cloud.auth.service.account.enable=true --conf spark.hadoop.google.cloud.auth.service.account.json.keyfile=/.env/ab-gcp-project.json pyspark/data_load.py
+  
 
