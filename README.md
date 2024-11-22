@@ -1,8 +1,14 @@
-# energy-consumption-project
- With rising concerns about energy efficiency and environmental impact, utility companies are increasingly collecting data on customer energy consumption. This project aims to develop a data analytics platform to gather, process, and analyze this data, helping to identify trends, detect consumption peaks, and optimize energy distribution.
+# CO2 Emissions Data Processing Project
 
+## Project Overview
+This project is designed to process and analyze CO2 emissions data from various countries over time. The main goal is to ingest raw data stored in Google Cloud Storage (GCS), transform it using PySpark to add meaningful insights, and store the processed data in BigQuery for efficient querying and reporting.
 
-## Steps
-- Create an ETL pipeline to process large volumes of energy consumption data.
-- Analyze consumption trends and provide actionable reports to support decision-making.
-- Automate deployment of infrastructure and data pipelines on Google Cloud Platform.
+The project uses Apache Airflow to orchestrate the data pipeline, enabling automation and scalability and Looker Studio for data visualization.
+
+Technologies Used
+`Google Cloud Platform (GCP)`:
+- `GCS`: Storing raw and processed data files.
+- `BigQuery`: Hosting the transformed data for analysis.
+- `Apache Airflow`: Workflow orchestration for data ingestion, transformation, and loading.
+- `PySpark`: Manipulating and transforming data.
+- `CSV Format`: Input data format.
