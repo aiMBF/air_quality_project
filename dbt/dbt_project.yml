@@ -1,0 +1,12 @@
+name: "dbt_duckdb_elt"
+version: "0.1.0"
+profile: "air_quality"
+
+model-paths: ["models"]
+target-path: "target"
+clean-targets: ["target", "dbt_modules"]
+
+models:
+  dbt_duckdb_elt:
+    +materialized: view 
+
