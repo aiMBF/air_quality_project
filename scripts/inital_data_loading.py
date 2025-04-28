@@ -5,7 +5,16 @@ DATA_FILE = 'data/paris-air-quality.csv'
 
 
 conn = db.connect(DB_PATH)
+#  Create raw table data to store data from WAQI API. Data are transformed before moved to silver table
+conn.execute("CREATE SCHEMA IF NOT EXISTS raw;")
 
+conn.execute("""
+    CREATE TABLE IF NOT EXISTS raw.raw_api_data (
+        ingestion_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        raw_json TEXT);""")
+
+
+# Create and load the silver table that will contain historical transformed data from
 conn.execute(
     """
     CREATE TABLE IF NOT EXISTS quality_air_data (
@@ -13,18 +22,8 @@ conn.execute(
         pm25 FLOAT,
         pm10 FLOAT,
         o3 FLOAT,
-        no2 FLOAT
-    )
-    """
-)
-conn.execute("CREATE SCHEMA IF NOT EXISTS raw;")
+        no2 FLOAT)""")
 
-conn.execute("""
-    CREATE TABLE IF NOT EXISTS raw.raw_api_data (
-        ingestion_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        raw_json TEXT
-    );
-""")
 existing_rows = conn.execute("SELECT COUNT(*) FROM quality_air_data").fetchone()[0]
 if existing_rows==0:
     print("Chargement des donnees ")
@@ -38,6 +37,5 @@ if existing_rows==0:
     FROM read_csv_auto('{DATA_FILE}')
     """)
     conn.close()
-    
 else:
     print("Donnees deja existantes")

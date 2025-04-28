@@ -3,14 +3,15 @@ from datetime import datetime, timedelta
 from airflow.operators.python import PythonOperator
 from airflow.operators.bash import BashOperator
 import requests, os, duckdb, subprocess, json
+from dotenv import load_dotenv
 
+load_dotenv(dotenv_path='.secrets')
+TOKEN = os.getenv("TOKEN")
 
-def say_hello():
-    print("Hello World !!")
     
     
 def load_from_api():
-    url = "https://api.waqi.info/feed/@5722/?token=8876300b97be85ed1baab3f7e85c83d0b1983a2c&city=Paris&offset=1&limit=10"
+    url = f"https://api.waqi.info/feed/@5722/?token={TOKEN}&city=Paris&offset=1&limit=10"
 
     result = subprocess.run(["curl", "-s", url], capture_output=True,  text=True, check=True)
     response_text = result.stdout
@@ -36,11 +37,6 @@ with DAG(
     catchup=False,
     tags=["air_quality", "dbt", "duckdb"],
 ) as dag:
-    
-    hello_task = PythonOperator(
-        task_id="say_hello",
-        python_callable=say_hello,
-    )
      
     ingest_task = PythonOperator(
         task_id="load_data_from_api",
@@ -57,4 +53,4 @@ with DAG(
         bash_command="cd /Users/baldita/Desktop/Projects/Personnel_Projects/energy_consumption/dbt && dbt test",
     )
 
-    hello_task >> ingest_task >> dbt_run >> dbt_test
+    ingest_task >> dbt_run >> dbt_test
